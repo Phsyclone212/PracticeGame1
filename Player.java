@@ -48,7 +48,7 @@ public class Player {
                 break;
             case 3: 
                 craft();
-                break;;
+                break;
             case 4: 
                 rest();
                 break;
@@ -82,6 +82,14 @@ public class Player {
             System.out.println("You successfully hunted a Rare Creature! +40xp");
         }
         checkXp();
+    }
+
+    public void craft(){
+        System.out.println("You craft...");
+    }
+
+    public void rest(){
+        System.out.println("You take time to rest.");
     }
 
     public void checkXp(){
