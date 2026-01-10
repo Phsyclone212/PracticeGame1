@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "id": "iron_ore",
+      "name": "Iron Ore",
+      "type": "resource",
+      "rarity": "common",
+      "obtainableFrom": ["mining"],
+      "craftingUses": ["iron_ingot"]
+    },
+    {
+      "id": "iron_ingot",
+      "name": "Iron Ingot",
+      "type": "material",
+      "rarity": "uncommon",
+      "craftingRequirements": {
+        "iron_ore": 3,
+        "coal": 1
+      },
+      "craftingUses": ["iron_sword"]
+    },
+    {
+      "id": "iron_sword",
+      "name": "Iron Sword",
+      "type": "weapon",
+      "rarity": "rare",
+      "stats": {
+        "attack": 10,
+        "durability": 100
+      },
+      "lootSources": ["raider", "chest"],
+      "craftingRequirements": {
+        "iron_ingot": 2,
+        "wood": 1
+      }
+    }
+  ]
+}
