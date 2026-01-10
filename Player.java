@@ -12,19 +12,28 @@ public class Player {
     // private HashMap<String, Integer> skills; // Holds key(skill name) and value (skill level)
     /* this needs to be done differently in the future to several skills spread over classes. */
 
+    private int stamina = 10;
+    private int maxStamina = 100;
+
     public Player(){
         this.playerLevel = 1;
         this.playerXp = 0;
+        this.stamina = 10;
     }
 
     public void action(){
-        // Player needs to see options and select one via number input.
+        // Player needs to see options and select one via number input if they have stamina.
+
         // display a menu of choices
         actionMenu();
+            
         // make selection
         int sel = sc.nextInt();
+
         // resolve action of choice
         resolveAction(sel);
+
+        playerStats();
     }
 
     private void actionMenu(){
@@ -38,13 +47,21 @@ public class Player {
 
     private void resolveAction(int sel){
         switch(sel){
-            case 1: 
-                System.out.println("You train your skills... ");
-                train();
+            case 1:
+                if(stamina >= 1){
+                    System.out.println("You train your skills... ");
+                    train();
+                } else {
+                    System.out.println("You don't have enough stamina to complete this action.");
+                }
                 break;
-            case 2: 
-                System.out.println("You go hunting...");
-                hunt();
+            case 2:
+                if(stamina>=1){
+                    System.out.println("You go hunting...");
+                    hunt();
+                } else {
+                    System.out.println("You don't have enough stamina to complete this action.");
+                }
                 break;
             case 3: 
                 craft();
@@ -52,19 +69,23 @@ public class Player {
             case 4: 
                 rest();
                 break;
-            case 5: 
-                
+            case 5:
+                // quit();
+                break;
             default: //player will rest
+                rest();
         }
     }
 
     private void train(){
+        this.stamina--; // reduce players stamina by 1 (or more based on things?)
         this.playerXp += 10;
         System.out.println("You have gained +10xp through your training.");
         checkXp();
     }
 
     public void hunt(){
+        this.stamina--; // reduce players stamina by 1. 
         int num = (int)(Math.random() * (25-1)+1);
         if(num==1){
             System.out.println("You failed to hunt anything. +0xp");
@@ -86,11 +107,24 @@ public class Player {
 
     public void craft(){
         System.out.println("You craft...");
+        // take away from items/resources to give the player usable equipment.
     }
 
     public void rest(){
-        System.out.println("You take time to rest.");
+        if(stamina < maxStamina){
+            System.out.println("You take time to rest. +5 Stamina");
+            stamina += 5;
+            if(stamina >= maxStamina){
+                System.out.println("You are at maximum stamina");
+                stamina = 100;
+            }
+        }
     }
+
+    // public void quit(){
+    //     System.out.println("You have quit the game. Thanks for playing!");
+    //     game.isRunning = false;
+    // }
 
     public void checkXp(){
         if(playerXp>=xpThreshold){
@@ -101,5 +135,10 @@ public class Player {
         System.out.println("Level: "+playerLevel);
         System.out.println("Xp: "+playerXp);
         System.out.println("Next Lvl: "+xpThreshold);
+    }
+
+    public void playerStats(){
+        System.out.println("Name: "+name+" Lvl: "+playerLevel);
+        System.out.println("Stamina: "+stamina);
     }
 }
