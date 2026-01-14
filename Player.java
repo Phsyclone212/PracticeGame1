@@ -15,6 +15,8 @@ public class Player {
     private int stamina = 10;
     private int maxStamina = 100;
 
+    private boolean isWaiting = false;
+
     public Player(){
         this.playerLevel = 1;
         this.playerXp = 0;
@@ -26,12 +28,13 @@ public class Player {
 
         // display a menu of choices
         actionMenu();
-            
+        isWaiting = true; // hold menu open while waiting for sel
         // make selection
         int sel = sc.nextInt();
-
-        // resolve action of choice
-        resolveAction(sel);
+        while(isWaiting){
+            // resolve action of choice <-- this is the actual resolution of the action.
+            resolveAction(sel);
+        }
 
         playerStats();
     }
@@ -41,8 +44,8 @@ public class Player {
         System.out.println("1. TRAIN");
         System.out.println("2. HUNT");
         System.out.println("3. CRAFT");
-        System.out.println("4. REST");
-        System.out.println("5. QUIT");
+        System.out.println("4. REST (+5 Stamina)");
+        System.out.println("5. BACK TO MAIN MENU");
     }
 
     private void resolveAction(int sel){
@@ -51,6 +54,7 @@ public class Player {
                 if(stamina >= 1){
                     System.out.println("You train your skills... ");
                     train();
+                    isWaiting = false;
                 } else {
                     System.out.println("You don't have enough stamina to complete this action.");
                 }
@@ -59,21 +63,26 @@ public class Player {
                 if(stamina>=1){
                     System.out.println("You go hunting...");
                     hunt();
+                    isWaiting = false;
                 } else {
                     System.out.println("You don't have enough stamina to complete this action.");
                 }
                 break;
             case 3: 
                 craft();
+                isWaiting = false;
                 break;
             case 4: 
                 rest();
+                isWaiting = false;
                 break;
             case 5:
-                // quit();
+                // doesn't need a method, just cancel isWaiting to return to Main Menu in Game.java
+                isWaiting = false;
                 break;
             default: //player will rest
                 rest();
+                isWaiting = false;
         }
     }
 
@@ -120,11 +129,6 @@ public class Player {
             }
         }
     }
-
-    // public void quit(){
-    //     System.out.println("You have quit the game. Thanks for playing!");
-    //     game.isRunning = false;
-    // }
 
     public void checkXp(){
         if(playerXp>=xpThreshold){
